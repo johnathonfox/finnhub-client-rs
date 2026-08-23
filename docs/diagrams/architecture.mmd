@@ -1,0 +1,24 @@
+flowchart LR
+    subgraph Consumer["Consumer application"]
+        App["app code<br/>client.stock().quote(AAPL)"]
+    end
+
+    subgraph Crate["finnhub-client-rs"]
+        direction TB
+        EP["endpoints/<br/>thin path + param builders"]
+        CL["client.rs<br/>single send() path"]
+        AU["auth.rs<br/>X-Finnhub-Token header"]
+        RL["rate_limit.rs<br/>governor bucket, 30 rps"]
+        M["models/<br/>pure serde types<br/>(no infra imports)"]
+        E["error.rs<br/>typed thiserror enum"]
+    end
+
+    FH["Finnhub REST API<br/>https://finnhub.io/api/v1"]
+
+    App --> EP
+    EP --> CL
+    CL --> FH
+    CL --> AU
+    CL --> RL
+    EP --> M
+    EP --> E

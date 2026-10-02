@@ -1,5 +1,6 @@
 //! Stock endpoint models.
 
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 /// Real-time price snapshot for a symbol (`/quote`).
@@ -9,25 +10,32 @@ use serde::{Deserialize, Serialize};
 pub struct Quote {
     /// Current price (upstream key `c`).
     #[serde(rename = "c")]
-    pub current_price: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub current_price: Option<Decimal>,
     /// Change (upstream key `d`).
     #[serde(rename = "d")]
-    pub change: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub change: Option<Decimal>,
     /// Percent change (upstream key `dp`).
     #[serde(rename = "dp")]
-    pub percent_change: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub percent_change: Option<Decimal>,
     /// High price of the day (upstream key `h`).
     #[serde(rename = "h")]
-    pub high: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub high: Option<Decimal>,
     /// Low price of the day (upstream key `l`).
     #[serde(rename = "l")]
-    pub low: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub low: Option<Decimal>,
     /// Open price of the day (upstream key `o`).
     #[serde(rename = "o")]
-    pub open: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub open: Option<Decimal>,
     /// Previous close price (upstream key `pc`).
     #[serde(rename = "pc")]
-    pub previous_close: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub previous_close: Option<Decimal>,
     /// Unix timestamp of the quote (upstream key `t`).
     #[serde(rename = "t")]
     pub timestamp: Option<i64>,
@@ -47,11 +55,13 @@ pub struct CompanyProfile {
     pub ipo: Option<String>,
     pub logo: Option<String>,
     #[serde(rename = "marketCapitalization")]
-    pub market_capitalization: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub market_capitalization: Option<Decimal>,
     pub name: Option<String>,
     pub phone: Option<String>,
     #[serde(rename = "shareOutstanding")]
-    pub share_outstanding: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub share_outstanding: Option<Decimal>,
     pub ticker: Option<String>,
     pub weburl: Option<String>,
 }
@@ -141,14 +151,18 @@ pub struct RecommendationTrend {
 /// Quarterly earnings surprise (`/stock/earnings`).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EpsSurprise {
-    pub actual: Option<f64>,
-    pub estimate: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub actual: Option<Decimal>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub estimate: Option<Decimal>,
     /// Period, `YYYY-MM-DD`.
     pub period: Option<String>,
     pub quarter: Option<i64>,
-    pub surprise: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub surprise: Option<Decimal>,
     #[serde(rename = "surprisePercent")]
-    pub surprise_percent: Option<f64>,
+    #[serde(default, deserialize_with = "crate::de::decimal_opt")]
+    pub surprise_percent: Option<Decimal>,
     pub symbol: Option<String>,
     pub year: Option<i64>,
 }

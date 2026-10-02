@@ -1,5 +1,6 @@
 //! Wiremock-based integration tests. No live network access.
 
+use rust_decimal_macros::dec;
 use std::num::NonZeroU32;
 
 use finnhub_client_rs::{AuthMethod, ClientConfig, Error, FinnhubClient};
@@ -121,13 +122,13 @@ async fn quote_deserializes_compact_keys_into_renamed_fields() {
     let client = test_client(&server);
     let quote = client.stock().quote("AAPL").await.unwrap();
 
-    assert_eq!(quote.current_price, Some(178.1));
-    assert_eq!(quote.change, Some(1.2));
-    assert_eq!(quote.percent_change, Some(0.68));
-    assert_eq!(quote.high, Some(179.0));
-    assert_eq!(quote.low, Some(177.0));
-    assert_eq!(quote.open, Some(177.5));
-    assert_eq!(quote.previous_close, Some(176.9));
+    assert_eq!(quote.current_price, Some(dec!(178.1)));
+    assert_eq!(quote.change, Some(dec!(1.2)));
+    assert_eq!(quote.percent_change, Some(dec!(0.68)));
+    assert_eq!(quote.high, Some(dec!(179.0)));
+    assert_eq!(quote.low, Some(dec!(177.0)));
+    assert_eq!(quote.open, Some(dec!(177.5)));
+    assert_eq!(quote.previous_close, Some(dec!(176.9)));
     assert_eq!(quote.timestamp, Some(1690000000));
 }
 

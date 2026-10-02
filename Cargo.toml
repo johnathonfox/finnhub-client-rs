@@ -1,6 +1,6 @@
 [package]
 name = "finnhub-client-rs"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Async Rust client for the Finnhub.io financial data API"
 license = "MIT OR Apache-2.0"
@@ -15,11 +15,13 @@ categories = ["api-bindings"]
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+serde_json = { version = "1", features = ["raw_value"] }
+rust_decimal = { version = "1", features = ["serde"] }
 thiserror = "2"
 governor = "0.10"
 secrecy = "0.10"
 
 [dev-dependencies]
+rust_decimal_macros = "1"
 dotenvy = "0.15"
 wiremock = "0.6"

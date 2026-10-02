@@ -21,6 +21,7 @@
 
 mod auth;
 mod client;
+mod de;
 mod error;
 mod rate_limit;
 
